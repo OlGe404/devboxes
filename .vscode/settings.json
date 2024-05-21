@@ -1,0 +1,12 @@
+{
+    "ansible.python.interpreterPath": "/bin/python3",
+    "files.associations": {
+        "template.pkr.hcl": "packer",
+        "pkrvars/**": "packervars",
+        "playbooks/**.y*ml": "ansible",
+        "requirements.txt": "pip-requirements"
+    },
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/requirements.json": "requirements.yaml"
+    }
+}
