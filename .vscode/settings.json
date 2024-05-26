@@ -1,9 +1,8 @@
 {
-    "ansible.python.interpreterPath": "/bin/python3",
+    "ansible.python.interpreterPath": "/bin/env/python3",
     "files.associations": {
-        "template.pkr.hcl": "packer",
-        "pkrvars/**": "packervars",
-        "playbooks/**.y*ml": "ansible",
+        "playbook.y*ml": "ansible",
+        "vars.y*ml": "ansible",
         "requirements.txt": "pip-requirements"
     },
     "yaml.schemas": {

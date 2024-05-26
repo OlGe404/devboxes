@@ -1,0 +1,13 @@
+---
+- name: Setup ubuntu 22.04 box
+  hosts: default
+  become: true
+  vars_files: vars.yaml
+  tasks:
+    - name: Install apt packages {{ apt_packages | join(', ') }} (this can take >30min)
+      ansible.builtin.apt:
+        cache_valid_time: 3600
+        name: "{{ apt_packages }}"
+
+    - name: Reboot box
+      ansible.builtin.reboot:
