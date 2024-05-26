@@ -2,15 +2,20 @@ Vagrant.configure("2") do |config|
   # vagrant confs
   config.vm.box = "bento/ubuntu-22.04"
   config.vm.box_version = "202404.23.0"
-  config.vm.box_check_update = false
+  config.vm.box_check_update = true
 
   # virtualbox provider confs
   config.vm.provider "virtualbox" do |vb|
+    vb.name = "ubuntu-22.04"
     vb.gui = true
+    # should be ~50% of the host systems cpus + memory (check with 'lscpu' and 'lsmem')
+    vb.cpus = 4
+    vb.memory = 8192
   end
 
   # ansible provisioner confs
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbook.yml"
+    ansible.compatibility_mode = "2.0"
   end
 end
