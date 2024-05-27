@@ -4,19 +4,13 @@
   become: true
   vars_files: vars.yaml
   tasks:
-    - name: APT installation info
-      ansible.builtin.debug:
-        msg: >-
-          Entering "Install apt packages" @{{ ansible_date_time.iso8601 }} (UTC).
-          This can take >30min to complete.
-
     - name: "Install apt packages: {{ apt_packages | join(', ') }}"
       when: apt_packages | length > 0
       ansible.builtin.apt:
         cache_valid_time: 3600
         name: "{{ apt_packages }}"
 
-    - name: Set timezone to '{{ timezone }}'
+    - name: Set timezone '{{ timezone }}'
       community.general.timezone:
         name: "{{ timezone }}"
         hwclock: local
@@ -26,15 +20,13 @@
         name: "{{ locale }}"
 
     - name: Set LANG and LC_ALL to '{{ locale }}'
-      loop:
-        - LANG
-        - LC_ALL
+      loop: ["LANG", "LC_ALL"]
       ansible.builtin.lineinfile:
         path: /etc/default/locale
         regexp: "^{{ item }}="
         line: "{{ item }}={{ locale }}"
 
-    - name: Set keyboard layout to '{{ keyboard_layout }}'
+    - name: Set keyboard layout '{{ keyboard_layout }}'
       ansible.builtin.lineinfile:
         path: /etc/default/keyboard
         regexp: "^XKBLAYOUT="
@@ -54,6 +46,7 @@
         channel: "{{ item.channel }}"
         classic: "{{ item.classic }}"
 
+    # As described in https://help.gnome.org/admin/system-admin-guide/stable/login-automatic.html.en
     - name: Customize gnome daemon conf
       with_items:
         - { key: "AutomaticLogin", value: vagrant }
@@ -64,7 +57,8 @@
         line: "{{ item.key }}={{ item.value }}"
         create: true
 
-    - name: Ensure dconf user profile
+    # As described in https://help.gnome.org/admin/system-admin-guide/stable/dconf-custom-defaults.html.en
+    - name: Ensure /etc/dconf/profile/user
       tags: skip_ansible_lint
       ansible.builtin.blockinfile:
         path: /etc/dconf/profile/user
