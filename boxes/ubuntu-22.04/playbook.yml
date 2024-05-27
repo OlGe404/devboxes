@@ -4,6 +4,12 @@
   become: true
   vars_files: vars.yaml
   tasks:
+    - name: APT installation info
+      ansible.builtin.debug:
+        msg: >-
+          Entering "Install apt packages" @{{ ansible_date_time.iso8601 }} (UTC).
+          This can take >30min to complete.
+
     - name: "Install apt packages: {{ apt_packages | join(', ') }}"
       when: apt_packages | length > 0
       ansible.builtin.apt:
@@ -56,6 +62,7 @@
         path: /etc/gdm3/custom.conf
         insertafter: "^\\[daemon\\]"
         line: "{{ item.key }}={{ item.value }}"
+        create: true
 
     - name: Ensure dconf user profile
       tags: skip_ansible_lint
@@ -73,7 +80,7 @@
         create: true
         block: |
           [org/gnome/desktop/background]
-          picture-uri='file:///usr/share/backgrounds/jj_dark_by_Hiking93.jpg'
+          picture-uri='file:///usr/share/backgrounds/jj_light_by_Hiking93.jpg'
 
     - name: Create lockfile for gnome background image
       tags: skip_ansible_lint
