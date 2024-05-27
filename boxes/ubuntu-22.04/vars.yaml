@@ -12,13 +12,13 @@ apt_packages:
   - curl
   - git
   - gpg
-  - gnome
+  - gnome-core
 
-snap_packages: {}
-  # - name: bitwarden
-  #   channel: latest/stable
-  #   classic: false
+snap_packages:
+  - name: bitwarden
+    channel: latest/stable
+    classic: false
 
-  # - name: code
-  #   channel: latest/stable
-  #   classic: true
+  - name: code
+    channel: latest/stable
+    classic: true
