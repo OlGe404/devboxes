@@ -1,4 +1,4 @@
 .vagrant
 to-dos.md
 .env
-.outputs
+.build/output
