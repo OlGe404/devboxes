@@ -4,6 +4,7 @@ packer {
       version = "v1.1.2"
       source  = "github.com/hashicorp/vagrant"
     }
+
     ansible = {
       version = "v1.1.1"
       source  = "github.com/hashicorp/ansible"
@@ -28,7 +29,7 @@ variable "packer_build_name" {
 variable "ansible_playbook_file" {
   type        = string
   default     = ""
-  description = "Path to the ansible playbook used to configure the box."
+  description = "Path to the ansible playbook file used to configure the box."
   validation {
     condition     = length(var.ansible_playbook_file) > 0
     error_message = "Var 'ansible_playbook_file' has to be set."
@@ -83,7 +84,7 @@ variable "vagrant_cloud_token" {
   description = "Token to authenticate against vagrant cloud API."
   validation {
     condition     = length(var.vagrant_cloud_token) > 0
-    error_message = "ENV 'VAGRANT_CLOUD_TOKEN' has to be set."
+    error_message = "'VAGRANT_CLOUD_TOKEN' has to be set as ENV."
   }
 }
 
@@ -107,7 +108,7 @@ build {
     command = <<EOF
 vagrant cloud publish --force --no-private --release \
 --architecture ${var.box_architecture} --default-architecture \
---version-description 'Custom box based on ${var.box_source_path} v${var.box_source_version}, configured with https://github.com/OlGe404/devboxes/blob/master/${var.ansible_playbook_file}' \
+--version-description 'Custom box based on ${var.box_source_path} v${var.box_source_version}, configured with https://github.com/OlGe404/devboxes/blob/main/${var.ansible_playbook_file}' \
 OlGe404/${var.packer_build_name} ${var.box_release_version} virtualbox ${local.packer_build_dir}/package.box
 EOF
   }

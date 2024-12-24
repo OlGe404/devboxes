@@ -1,5 +1,5 @@
 {
-    "ansible.python.interpreterPath": "/bin/env/python3",
+    "ansible.python.interpreterPath": "${workspaceFolder}/.venv/bin/python",
     "files.associations": {
         "playbook.y*ml": "ansible",
         "vars.y*ml": "ansible",

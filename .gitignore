@@ -2,3 +2,4 @@
 to-dos.md
 .env
 .build/output
+.venv

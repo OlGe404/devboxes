@@ -1,4 +1,4 @@
 ---
 collections:
-  - name: community.general
-    version: 8.6.1
+  - name: olge404.unix
+    version: 0.1.1
