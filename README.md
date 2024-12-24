@@ -1,12 +1,12 @@
 # devboxes
 
-Sources:
+# Sources
 
 * [Vagrant providers: Basic usage](https://developer.hashicorp.com/vagrant/docs/providers/basic_usage)
 * [Creating a Base Box](https://developer.hashicorp.com/vagrant/docs/boxes/base)
 * [Creating a Base Box (for VirtualBox)](https://developer.hashicorp.com/vagrant/docs/providers/virtualbox/boxes#virtualbox-guest-additions)
 
-# Base box checklist
+## Base box checklist
 
 * [Install packer and vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
 * ["vagrant" User](https://developer.hashicorp.com/vagrant/docs/boxes/base#vagrant-user)
