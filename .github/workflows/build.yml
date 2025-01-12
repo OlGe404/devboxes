@@ -1,0 +1,12 @@
+---
+name: Container images
+on:
+  # Run every first sunday of a month at midnight (UTC) to keep dependencies up to date
+  schedule:
+    - cron: "0 0 1-7 * 0"
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v3
