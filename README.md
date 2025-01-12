@@ -2,9 +2,11 @@
 
 # Sources
 
+* [Packer HCL variable syntax] (https://developer.hashicorp.com/packer/docs/templates/hcl_templates/variables#bool)
 * [Vagrant providers: Basic usage](https://developer.hashicorp.com/vagrant/docs/providers/basic_usage)
 * [Creating a Base Box](https://developer.hashicorp.com/vagrant/docs/boxes/base)
 * [Creating a Base Box (for VirtualBox)](https://developer.hashicorp.com/vagrant/docs/providers/virtualbox/boxes#virtualbox-guest-additions)
+* [Upload a box to vagrant cloud](https://developer.hashicorp.com/vagrant/vagrant-cloud/api/v2#creating-a-usable-box-from-scratch)
 
 ## Base box checklist
 
