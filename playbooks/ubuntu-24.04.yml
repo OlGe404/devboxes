@@ -1,111 +1,112 @@
 ---
-- name: Setup evbox on ubuntu 24.04
-  hosts: default
-  become: true
-  vars:
-    timezone: Europe/Berlin
-    locale: de_DE.UTF-8
-    keyboard_layout: de
-    apt_packages:
-      - locales
-      - x11-xkb-utils
-      - python3
-      - python3-venv
-      - build-essential
-      - curl
-      - git
-      - gpg
-      - gnome-core
+- name: Setup ubuntu 24.04 as devbox
+  hosts: all
+  tasks: [] 
 
-    snap_packages:
-      - name: bitwarden
-        channel: latest/stable
-        classic: false
+  # vars:
+  #   timezone: Europe/Berlin
+  #   locale: de_DE.UTF-8
+  #   keyboard_layout: de
+  #   apt_packages:
+  #     - locales
+  #     - x11-xkb-utils
+  #     - python3
+  #     - python3-venv
+  #     - build-essential
+  #     - curl
+  #     - git
+  #     - gpg
+  #     - gnome-core
 
-      - name: code
-        channel: latest/stable
-        classic: true
+  #   snap_packages:
+  #     - name: bitwarden
+  #       channel: latest/stable
+  #       classic: false
 
-  tasks:
-    - name: "Install apt packages: {{ apt_packages | join(', ') }}"
-      when: apt_packages | length > 0
-      ansible.builtin.apt:
-        cache_valid_time: 3600
-        name: "{{ apt_packages }}"
+  #     - name: code
+  #       channel: latest/stable
+  #       classic: true
 
-    - name: Set timezone '{{ timezone }}'
-      community.general.timezone:
-        name: "{{ timezone }}"
-        hwclock: local
+  # tasks:
+  #   - name: "Install apt packages: {{ apt_packages | join(', ') }}"
+  #     when: apt_packages | length > 0
+  #     ansible.builtin.apt:
+  #       cache_valid_time: 3600
+  #       name: "{{ apt_packages }}"
 
-    - name: Ensure locale '{{ locale }}'
-      community.general.locale_gen:
-        name: "{{ locale }}"
+  #   - name: Set timezone '{{ timezone }}'
+  #     community.general.timezone:
+  #       name: "{{ timezone }}"
+  #       hwclock: local
 
-    - name: Set LANG and LC_ALL to '{{ locale }}'
-      loop: ["LANG", "LC_ALL"]
-      ansible.builtin.lineinfile:
-        path: /etc/default/locale
-        regexp: "^{{ item }}="
-        line: "{{ item }}={{ locale }}"
+  #   - name: Ensure locale '{{ locale }}'
+  #     community.general.locale_gen:
+  #       name: "{{ locale }}"
 
-    - name: Set keyboard layout '{{ keyboard_layout }}'
-      ansible.builtin.lineinfile:
-        path: /etc/default/keyboard
-        regexp: "^XKBLAYOUT="
-        line: XKBLAYOUT="{{ keyboard_layout }}"
+  #   - name: Set LANG and LC_ALL to '{{ locale }}'
+  #     loop: ["LANG", "LC_ALL"]
+  #     ansible.builtin.lineinfile:
+  #       path: /etc/default/locale
+  #       regexp: "^{{ item }}="
+  #       line: "{{ item }}={{ locale }}"
 
-    - name: Disable swap
-      ansible.builtin.lineinfile:
-        state: absent
-        path: /etc/fstab
-        regexp: "^/swap"
+  #   - name: Set keyboard layout '{{ keyboard_layout }}'
+  #     ansible.builtin.lineinfile:
+  #       path: /etc/default/keyboard
+  #       regexp: "^XKBLAYOUT="
+  #       line: XKBLAYOUT="{{ keyboard_layout }}"
 
-    - name: "Install snap_packages: {{ snap_packages | join(', ') }}"
-      when: snap_packages | length > 0
-      with_items: "{{ snap_packages }}"
-      community.general.snap:
-        name: "{{ item.name }}"
-        channel: "{{ item.channel }}"
-        classic: "{{ item.classic }}"
+  #   - name: Disable swap
+  #     ansible.builtin.lineinfile:
+  #       state: absent
+  #       path: /etc/fstab
+  #       regexp: "^/swap"
 
-    # As described in https://help.gnome.org/admin/system-admin-guide/stable/login-automatic.html.en
-    - name: Customize gnome daemon conf
-      with_items:
-        - { key: "AutomaticLogin", value: vagrant }
-        - { key: "AutomaticLoginEnable", value: true }
-      ansible.builtin.lineinfile:
-        path: /etc/gdm3/custom.conf
-        insertafter: "^\\[daemon\\]"
-        line: "{{ item.key }}={{ item.value }}"
-        create: true
+  #   - name: "Install snap_packages: {{ snap_packages | join(', ') }}"
+  #     when: snap_packages | length > 0
+  #     with_items: "{{ snap_packages }}"
+  #     community.general.snap:
+  #       name: "{{ item.name }}"
+  #       channel: "{{ item.channel }}"
+  #       classic: "{{ item.classic }}"
 
-    # As described in https://help.gnome.org/admin/system-admin-guide/stable/dconf-custom-defaults.html.en
-    - name: Ensure /etc/dconf/profile/user
-      tags: skip_ansible_lint
-      ansible.builtin.blockinfile:
-        path: /etc/dconf/profile/user
-        create: true
-        block: |
-          user-db:user
-          system-db:local
+  #   # As described in https://help.gnome.org/admin/system-admin-guide/stable/login-automatic.html.en
+  #   - name: Customize gnome daemon conf
+  #     with_items:
+  #       - { key: "AutomaticLogin", value: vagrant }
+  #       - { key: "AutomaticLoginEnable", value: true }
+  #     ansible.builtin.lineinfile:
+  #       path: /etc/gdm3/custom.conf
+  #       insertafter: "^\\[daemon\\]"
+  #       line: "{{ item.key }}={{ item.value }}"
+  #       create: true
 
-    - name: Custmize gnome background image
-      tags: skip_ansible_lint
-      ansible.builtin.blockinfile:
-        path: /etc/dconf/db/local.d/00-background
-        create: true
-        block: |
-          [org/gnome/desktop/background]
-          picture-uri='file:///usr/share/backgrounds/jj_light_by_Hiking93.jpg'
+  #   # As described in https://help.gnome.org/admin/system-admin-guide/stable/dconf-custom-defaults.html.en
+  #   - name: Ensure /etc/dconf/profile/user
+  #     tags: skip_ansible_lint
+  #     ansible.builtin.blockinfile:
+  #       path: /etc/dconf/profile/user
+  #       create: true
+  #       block: |
+  #         user-db:user
+  #         system-db:local
 
-    - name: Create lockfile for gnome background image
-      tags: skip_ansible_lint
-      ansible.builtin.blockinfile:
-        path: /etc/dconf/db/local.d/locks/background
-        create: true
-        block: |
-          /org/gnome/desktop/background/picture-uri
+  #   - name: Custmize gnome background image
+  #     tags: skip_ansible_lint
+  #     ansible.builtin.blockinfile:
+  #       path: /etc/dconf/db/local.d/00-background
+  #       create: true
+  #       block: |
+  #         [org/gnome/desktop/background]
+  #         picture-uri='file:///usr/share/backgrounds/jj_light_by_Hiking93.jpg'
 
-    - name: Reload dconf
-      ansible.builtin.command: dconf update
+  #   - name: Create lockfile for gnome background image
+  #     tags: skip_ansible_lint
+  #     ansible.builtin.blockinfile:
+  #       path: /etc/dconf/db/local.d/locks/background
+  #       create: true
+  #       block: |
+  #         /org/gnome/desktop/background/picture-uri
+
+  #   - name: Reload dconf
+  #     ansible.builtin.command: dconf update
