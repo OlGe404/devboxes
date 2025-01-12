@@ -15,7 +15,8 @@ build {
     playbook_file = var.ansible_playbook_file
     host_alias    = var.packer_build_name
     groups        = var.ansible_groups
-    # path.root = dir where "template.pkr.hcl" lives
+    # path.root = dir where "template.pkr.hcl" lives.
+    # Necessary to correctly resolve ansible group_vars and host_vars.
     inventory_directory = path.root
     galaxy_file         = "${path.root}/requirements.yaml"
   }
