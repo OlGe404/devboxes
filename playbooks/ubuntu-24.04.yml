@@ -1,5 +1,5 @@
 ---
-- name: Configure ubuntu 22.04
+- name: Setup evbox on ubuntu 24.04
   hosts: default
   become: true
   vars:

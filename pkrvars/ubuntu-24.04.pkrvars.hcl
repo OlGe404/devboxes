@@ -1,0 +1,5 @@
+packer_build_name     = "ubuntu-24.04"
+ansible_playbook_file = "playbooks/ubuntu-24.04.yml"
+box_source_path       = "bento/ubuntu-24.04"
+box_source_version    = "202407.23.0"
+box_release_version   = "0.1.0"
