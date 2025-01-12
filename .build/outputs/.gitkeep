@@ -1,0 +1,2 @@
+This dir is used to store the output of vagrant builds temporarily
+before boxes are uploaded to vagrant cloud.
