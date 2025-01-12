@@ -51,3 +51,9 @@ variable "vagrant_skip_add" {
     This is useful if 'vagrant_source_path' is already present on your system.
   EOF
 }
+
+variable "vagrant_cloud_token" {
+  type        = string
+  default     = env("VAGRANT_CLOUD_TOKEN")
+  description = "Token to authenticate against vagrant cloud API to upload new versions of boxes."
+}
